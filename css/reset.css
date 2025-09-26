@@ -78,3 +78,28 @@ select {
     scroll-behavior: auto !important;
   }
 }
+
+/* // by heyru */
+.video-thumb {
+  position: relative;
+  max-width: 100%;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+.video-thumb img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+.play-button {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 3rem;
+  padding: 0.4em 0.5em;
+  border-radius: 50%;
+  pointer-events: none;
+}
