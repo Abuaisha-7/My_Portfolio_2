@@ -1,0 +1,11 @@
+Project Goals:
+
+Develop an interactive online forum similar to Evangadi, focused on community engagement and discussion.
+
+My Solution:
+
+Designed a user-friendly interface with React and Vite, built a scalable back-end with Node.js and MySQL, implemented user authentication, real-time updates, and discussion features.
+
+Impact:
+
+Enhanced community interaction, improved user engagement, provided a reliable and scalable platform for discussions, and supported the growth of an active online community.
