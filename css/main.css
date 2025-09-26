@@ -368,7 +368,7 @@ input[type="submit"]:focus {
   right: -80px;
   background-color: #fff;
   border-radius: 35px;
-  z-index: 98;
+  z-index: 1001;
   list-style: none;
   bottom: 0;
   -webkit-box-shadow: 0 0 30px -5px rgba(0,0,0,.15);

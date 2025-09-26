@@ -27,18 +27,19 @@ var PageTransitions = (function ($, options) {
 
     function init(options) {
 
+        // Initialize menu selector and starting page id before usage
+        var menu = options.menu,
+        pageStart = getActiveSection();
+
         // Get all the .animated-section sections.
         $('.animated-section').each( function() {
             var $page = $(this);
             $page.data('originalClassList', $page.attr('class'));
         });
 
-        // Get all the .pt-wrapper div which is the parent for all pt-div
-        sectionsContainer.each( function() {
-            if (location.hash === "") {
-                $('section[data-id='+ pageStart +']').addClass('section-active');
-            }
-        });
+        // Ensure initial active section and current page tracking
+        sectionsContainer.data('current', pageStart.replace(/^#/, ''));
+        $('section[data-id="' + pageStart.replace(/^#/, '') + '"]').addClass('section-active');
 
         // Adding click event to main menu link
         $('.nav-anim').on("click", function (e) {
@@ -69,11 +70,11 @@ var PageTransitions = (function ($, options) {
             }
         };
 
-        var menu = options.menu,
-        pageStart = getActiveSection();
-
         location.hash = pageStart;
         var menuLink = $(menu+' a[href*="'+location.hash.split('/')[0]+'"]');
+        if (!menuLink.length) {
+            menuLink = $(menu+' a.nav-anim').first();
+        }
 
         activeMenuItem(menuLink);
 
@@ -170,12 +171,15 @@ var PageTransitions = (function ($, options) {
     function Animate($pageTrigger, gotoPage) {
 
         // Checking for 'data-animation' attribute.
-        if (!($pageTrigger.attr('data-animation'))) {
+        var animAttr = $pageTrigger && $pageTrigger.attr ? $pageTrigger.attr('data-animation') : null;
+        if (!animAttr) {
             var animNumber = parseInt(Math.floor(Math.random() * 67) + 1);
-            $pageTrigger.data('animation',animNumber);
+            $pageTrigger = $($pageTrigger); // ensure jQuery object
+            $pageTrigger.data('animation', animNumber);
+            animAttr = String(animNumber);
         }
 
-        var animation = $pageTrigger.data('animation').toString(),
+        var animation = String($pageTrigger.data('animation') || animAttr),
             gotoPage, inClass, outClass, selectedAnimNumber;
 
          // Check if the delimiter '-' is present then create an animation array list.
@@ -467,7 +471,7 @@ var PageTransitions = (function ($, options) {
         // This will get the nav-anim elements parent wrapper div
         var $pageWrapper = sectionsContainer,
             currentPageId = $pageWrapper.data('current'), tempPageIndex,
-            linkhref = $pageTrigger.attr('href').split("#"),
+            linkhref = ($pageTrigger && $pageTrigger.attr) ? $pageTrigger.attr('href').split("#") : ["", currentPageId],
             gotoPage = linkhref[1];
             
             tempPageIndex = currentPageId;
